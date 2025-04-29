@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
+
 import Layout from "./layouts/Layout.tsx";
+import Register from "@/pages/Register.tsx";
 
 const App = () => {
   return (
@@ -10,6 +12,14 @@ const App = () => {
           element={
             <Layout>
               <p>home page</p>
+            </Layout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Layout>
+              <Register />{" "}
             </Layout>
           }
         />

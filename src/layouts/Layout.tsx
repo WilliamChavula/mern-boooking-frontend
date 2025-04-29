@@ -10,10 +10,12 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen min-w-fit">
       <Header />
       <Hero />
-      <div className="container mx-auto py-10 flex-1">{children}</div>
+      <div className="container flex-grow px-4 sm:px-6 lg:px-8 py-10 mx-auto">
+        {children}
+      </div>
       <Footer />
     </div>
   );
