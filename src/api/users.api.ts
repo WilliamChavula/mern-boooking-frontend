@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
@@ -11,15 +11,15 @@ export const useRegisterApiHandler = () => {
   const registerUserRequest = async (
     formData: RegisterSchema,
   ): Promise<CreateUserResponseSchema> => {
-    const res = await axios.post<CreateUserResponseSchema>(
-      `${configVars.VITE_API_BASE_URL}/api/users/register`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    const res = await axios.post<
+      CreateUserResponseSchema,
+      AxiosResponse<CreateUserResponseSchema>,
+      RegisterSchema
+    >(`${configVars.VITE_API_BASE_URL}/api/users/register`, formData, {
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+    });
 
     if (res.status !== 201) {
       throw new Error(res.statusText);
