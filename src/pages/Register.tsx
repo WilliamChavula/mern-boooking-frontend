@@ -19,12 +19,18 @@ import { Button } from "@/components/ui/button.tsx";
 const Register = () => {
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
   const createNewUserHandler = useRegisterApiHandler();
 
   const onSubmit = async (data: RegisterSchema) => {
-    const user = await createNewUserHandler(data);
-    console.log({ user });
+    await createNewUserHandler(data);
   };
   return (
     <Form {...form}>

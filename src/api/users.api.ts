@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 
 import type { CreateUserResponseSchema, RegisterSchema } from "@/types.ts";
@@ -27,6 +28,12 @@ export const useRegisterApiHandler = () => {
 
   const { mutateAsync: createNewUserHandler } = useMutation({
     mutationFn: registerUserRequest,
+    onSuccess: () => {
+      toast.success("User created successfully.");
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    },
   });
 
   return createNewUserHandler;

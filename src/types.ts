@@ -23,20 +23,15 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
-const createUserSuccessResponseSchema = z.object({
-  success: z.literal(true),
-  message: z.string(),
-  data: z
-    .object({
-      id: z.string(),
-      email: z.string(),
-      firstName: z.string(),
-      lastName: z.string(),
-    })
-    .optional(),
-});
+export type CreateUserResponseSchema = {
+  success: true;
+  message: string;
+  data: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+};
 
 export type RegisterSchema = z.infer<typeof registerSchema>;
-export type CreateUserResponseSchema = z.infer<
-  typeof createUserSuccessResponseSchema
->;
