@@ -11,7 +11,7 @@ export const useRegisterApiHandler = () => {
   const registerUserRequest = async (
     formData: RegisterSchema,
   ): Promise<CreateUserResponseSchema> => {
-    const res = await axios.post(
+    const res = await axios.post<CreateUserResponseSchema>(
       `${configVars.VITE_API_BASE_URL}/api/users/register`,
       formData,
       {
