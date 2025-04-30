@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
 
 import Layout from "./layouts/Layout.tsx";
 import Register from "@/pages/Register.tsx";
+import SignIn from "./pages/SignIn.tsx";
 
 const App = () => {
   return (
@@ -20,6 +21,14 @@ const App = () => {
           element={
             <Layout>
               <Register />{" "}
+            </Layout>
+          }
+        />
+        <Route
+          path="/sign-in"
+          element={
+            <Layout>
+              <SignIn />
             </Layout>
           }
         />
