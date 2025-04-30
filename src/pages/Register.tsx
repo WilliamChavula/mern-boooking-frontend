@@ -12,9 +12,10 @@ import {
   FormMessage,
 } from "@/components/ui/form.tsx";
 
-import { registerSchema, RegisterSchema } from "@/types.ts";
+import { registerSchema, type RegisterSchema } from "@/types.ts";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { Link } from "react-router";
 
 const Register = () => {
   const form = useForm<RegisterSchema>({
@@ -130,6 +131,12 @@ const Register = () => {
             );
           }}
         />
+        <span className="text-slate-600 text-xs md:text-sm">
+          Already have an account?{" "}
+          <Link to="/sign-in" className="text-blue-800 hover:underline">
+            Click here to sign in.
+          </Link>{" "}
+        </span>
         <Button
           type="submit"
           className="bg-blue-600 text-sm md:text-base text-white font-bold py-2 px-5 max-w-1/4 min-w-fit rounded-none hover:bg-blue-500"
