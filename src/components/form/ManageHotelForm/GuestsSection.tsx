@@ -30,7 +30,6 @@ const GuestsSection = () => {
                     min={1}
                     {...field}
                     className="rounded-none py-3 bg-white"
-                    defaultValue={1}
                   />
                 </FormControl>
                 <FormMessage />
@@ -53,7 +52,6 @@ const GuestsSection = () => {
                     min={0}
                     {...field}
                     className="rounded-none py-3 bg-white"
-                    defaultValue={0}
                   />
                 </FormControl>
                 <FormMessage />
