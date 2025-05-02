@@ -6,6 +6,7 @@ import { createHotelSchema, CreateHotelSchema } from "@/types.ts";
 import DetailsSection from "@/components/form/ManageHotelForm/DetailsSection.tsx";
 import HotelTypesSection from "@/components/form/ManageHotelForm/HotelTypesSection.tsx";
 import FacilitiesSection from "@/components/form/ManageHotelForm/FacilitiesSection.tsx";
+import GuestsSection from "@/components/form/ManageHotelForm/GuestsSection.tsx";
 
 const ManageHotelForm = () => {
   const form = useForm<CreateHotelSchema>({
@@ -17,6 +18,7 @@ const ManageHotelForm = () => {
         <DetailsSection />
         <HotelTypesSection />
         <FacilitiesSection />
+        <GuestsSection />
       </form>
     </Form>
   );
