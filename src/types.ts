@@ -50,21 +50,43 @@ export const createHotelSchema = z
       .string({ message: "Description cannot be blank." })
       .min(3, "Description cannot be less than 3 characters.")
       .max(300, "Description cannot be more than 300 characters"),
-    type: z.string(),
-    adultCount: z.coerce.number().min(1, "Adult count cannot be less than 1"),
-    childCount: z.coerce.number().min(0),
-    pricePerNight: z.coerce.number().min(1),
+    type: z.string({
+      message: "Select an option",
+    }),
+    adultCount: z.coerce
+      .number({
+        message: "Enter number of adults",
+      })
+      .min(1, "Adult count cannot be less than 1"),
+    childCount: z.coerce
+      .number({
+        message: "Enter number of children",
+      })
+      .min(0),
+    pricePerNight: z.coerce
+      .number({
+        message: "Enter price of stay per night",
+      })
+      .min(1),
     starRating: z.coerce
-      .number()
+      .number({
+        message: "Enter hotel rating",
+      })
       .min(1, "Rating cannot be less than 1")
       .max(5, "Rating cannot be more than 5"),
     userId: z.string().optional(),
-    imageUrls: z.instanceof(FileList),
+    imageFiles: z.instanceof(FileList, {
+      message: "Must upload at least one image file",
+    }),
     facilities: z.string().array(),
   })
-  .refine((data) => data.facilities && data.facilities.length > 0, {
-    message: "Must select at least one facility for your Hotel",
-    path: ["facilities"],
+  .refine((data) => data.imageFiles.length !== 0, {
+    message: "Hotel must have at least 1 image",
+    path: ["imageFiles"],
+  })
+  .refine((data) => data.imageFiles.length <= 6, {
+    message: "Hotel cannot have more than 6 images",
+    path: ["imageFiles"],
   });
 
 export type CreateUserResponseSchema = {
