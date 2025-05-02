@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { createHotelSchema, CreateHotelSchema } from "@/types.ts";
 import DetailsSection from "@/components/form/ManageHotelForm/DetailsSection.tsx";
-import HotelTypes from "@/components/form/ManageHotelForm/HotelTypes.tsx";
+import HotelTypesSection from "@/components/form/ManageHotelForm/HotelTypesSection.tsx";
+import FacilitiesSection from "@/components/form/ManageHotelForm/FacilitiesSection.tsx";
 
 const ManageHotelForm = () => {
   const form = useForm<CreateHotelSchema>({
@@ -14,7 +15,8 @@ const ManageHotelForm = () => {
     <Form {...form}>
       <form className="flex flex-col gap-5">
         <DetailsSection />
-        <HotelTypes />
+        <HotelTypesSection />
+        <FacilitiesSection />
       </form>
     </Form>
   );

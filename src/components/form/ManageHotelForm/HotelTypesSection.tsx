@@ -11,7 +11,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group.tsx";
 import { cn } from "@/lib/utils.ts";
 
-const HotelTypes = () => {
+const HotelTypesSection = () => {
   const { control, watch } = useFormContext<CreateHotelSchema>();
   const watched = watch("type");
   return (
@@ -58,4 +58,4 @@ const HotelTypes = () => {
   );
 };
 
-export default HotelTypes;
+export default HotelTypesSection;
