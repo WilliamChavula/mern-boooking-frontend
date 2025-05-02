@@ -78,7 +78,9 @@ export const createHotelSchema = z
     imageFiles: z.instanceof(FileList, {
       message: "Must upload at least one image file",
     }),
-    facilities: z.string().array(),
+    facilities: z.string().array().nonempty({
+      message: "Must select at least one facility",
+    }),
   })
   .refine((data) => data.imageFiles.length !== 0, {
     message: "Hotel must have at least 1 image",
