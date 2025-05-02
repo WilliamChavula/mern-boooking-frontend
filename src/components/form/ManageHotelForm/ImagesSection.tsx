@@ -21,7 +21,7 @@ const ImagesSection = () => {
           control={control}
           render={({ field }) => {
             return (
-              <FormItem className="w-full py-5">
+              <FormItem className="w-full px-3 py-5">
                 <FormControl className="w-full text-gray-700 font-normal">
                   <div className="grid w-fit border-none max-w-sm items-center gap-1.5">
                     <Input
