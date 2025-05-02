@@ -29,6 +29,7 @@ const FacilitiesSection = () => {
                 >
                   <FormControl>
                     <Checkbox
+                      data-testid={`terms-checkbox-${index}`}
                       onCheckedChange={(checked) => {
                         const selected = checked
                           ? [...field.value, facility]

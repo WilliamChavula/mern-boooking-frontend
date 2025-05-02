@@ -124,15 +124,22 @@ const DetailsSection = () => {
                 Rating
               </FormLabel>
               <FormControl>
-                <Select onValueChange={field.onChange}>
+                <Select onValueChange={field.onChange} name="starRatingSelect">
                   <FormControl>
-                    <SelectTrigger className="w-full border p-2 text-gray-700 font-normal rounded-none">
+                    <SelectTrigger
+                      data-testid="starRating-select-trigger"
+                      className="w-full border p-2 text-gray-700 font-normal rounded-none"
+                    >
                       <SelectValue placeholder="Select a rating" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {[1, 2, 3, 4, 5].map((val) => (
-                      <SelectItem key={val} value={val.toString()}>
+                      <SelectItem
+                        key={val}
+                        value={val.toString()}
+                        data-testid={`starRating-select-option-${val}`}
+                      >
                         {val}
                       </SelectItem>
                     ))}

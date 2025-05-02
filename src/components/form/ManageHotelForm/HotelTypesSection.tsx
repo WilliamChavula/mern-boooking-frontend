@@ -38,6 +38,7 @@ const HotelTypesSection = () => {
                         <RadioGroupItem value={type} className="hidden" />
                       </FormControl>
                       <FormLabel
+                        data-testid={`hotel-type-${index}`}
                         className={cn(
                           "w-full cursor-pointer text-xs md:text-sm rounded-full font-semibold px-2 py-1 md:px-4 md:py-2",
                           watched === type ? "bg-blue-300" : "bg-slate-300",
