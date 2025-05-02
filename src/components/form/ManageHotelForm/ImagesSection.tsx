@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 
 const ImagesSection = () => {
-  const { control, getValues } = useFormContext<CreateHotelSchema>();
+  const { control } = useFormContext<CreateHotelSchema>();
 
   return (
     <div>
@@ -30,10 +30,8 @@ const ImagesSection = () => {
                       accept="image/*"
                       onChange={(evt) => {
                         const files = evt.target.files;
-                        console.log("Raw files:", files);
                         if (files) {
                           field.onChange(files);
-                          console.log("Form value:", getValues("imageFiles")); // Use getValues
                         }
                       }}
                       onBlur={field.onBlur}
