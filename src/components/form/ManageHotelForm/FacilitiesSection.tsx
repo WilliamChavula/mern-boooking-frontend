@@ -20,19 +20,32 @@ const FacilitiesSection = () => {
         control={control}
         name="facilities"
         render={({ field }) => (
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
-            {hotelFacilities.map((facility) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                <FormControl>
-                  <Checkbox onCheckedChange={field.onChange} value={facility} />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel className="text-slate-700">{facility}</FormLabel>
-                </div>
-              </FormItem>
-            ))}
+          <>
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
+              {hotelFacilities.map((facility, index) => (
+                <FormItem
+                  key={index}
+                  className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4"
+                >
+                  <FormControl>
+                    <Checkbox
+                      onCheckedChange={(checked) => {
+                        const selected = checked
+                          ? [...field.value, facility]
+                          : field.value.filter((v) => v !== facility);
+                        field.onChange(selected);
+                      }}
+                      checked={field.value.includes(facility)}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-slate-700">{facility}</FormLabel>
+                  </div>
+                </FormItem>
+              ))}
+            </div>
             <FormMessage />
-          </div>
+          </>
         )}
       />
     </div>
