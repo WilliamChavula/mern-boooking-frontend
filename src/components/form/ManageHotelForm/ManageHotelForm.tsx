@@ -2,7 +2,7 @@ import { Form } from "@/components/ui/form.tsx";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import useAddMyHotel from "@/api/hotels.api.ts";
+import { useAddMyHotel } from "@/api/hotels.api.ts";
 import { createHotelSchema, CreateHotelSchema } from "@/types.ts";
 
 import DetailsSection from "@/components/form/ManageHotelForm/DetailsSection.tsx";

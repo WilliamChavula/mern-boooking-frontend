@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { configVars } from "@/config";
 import { toast } from "sonner";
-import { CreateHotelSchemaResponse } from "@/types.ts";
+import { CreateHotelSchemaResponse, HotelsResponse } from "@/types.ts";
 
 const useAddMyHotel = () => {
   const addHotelAxiosRequest = async (hotel: FormData) => {
@@ -32,4 +32,24 @@ const useAddMyHotel = () => {
   return { addHotelRequest, isLoading };
 };
 
-export default useAddMyHotel;
+const useGetMyHotels = () => {
+  const getHotelAxiosRequest = async (): Promise<HotelsResponse> => {
+    const res = await axios.get<HotelsResponse>(
+      `${configVars.VITE_API_BASE_URL}/api/my/hotel`,
+      { withCredentials: true },
+    );
+    if (!res.data.success || res.status !== 200) {
+      throw new Error(res.data.message);
+    }
+    return res.data;
+  };
+
+  const { data } = useQuery<HotelsResponse>({
+    queryKey: ["fetch-hotels"],
+    queryFn: getHotelAxiosRequest,
+  });
+
+  return data;
+};
+
+export { useAddMyHotel, useGetMyHotels };
