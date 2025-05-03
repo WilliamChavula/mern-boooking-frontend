@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
 
+import { useUserSession } from "@/api/users.api.ts";
+
 import Layout from "./layouts/Layout.tsx";
 import Register from "@/pages/Register.tsx";
 import SignIn from "./pages/SignIn.tsx";
 import AddHotel from "@/pages/AddHotel.tsx";
-import { useUserSession } from "@/api/users.api.ts";
+import MyHotels from "@/pages/MyHotels.tsx";
 
 const App = () => {
   const { isLoggedIn } = useUserSession();
@@ -42,6 +44,14 @@ const App = () => {
               element={
                 <Layout>
                   <AddHotel />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-hotels"
+              element={
+                <Layout>
+                  <MyHotels />
                 </Layout>
               }
             />
