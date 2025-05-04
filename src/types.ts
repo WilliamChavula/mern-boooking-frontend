@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { UseMutateAsyncFunction } from "@tanstack/react-query";
 
 export const registerSchema = z
   .object({
@@ -75,21 +76,41 @@ export const createHotelSchema = z
       .min(1, "Rating cannot be less than 1")
       .max(5, "Rating cannot be more than 5"),
     userId: z.string().optional(),
-    imageFiles: z.instanceof(FileList, {
-      message: "Must upload at least one image file",
-    }),
+    imageFiles: z.instanceof(FileList).optional(),
+    imageUrls: z.array(z.string()).optional(),
     facilities: z.string().array().nonempty({
       message: "Must select at least one facility",
     }),
   })
-  .refine((data) => data.imageFiles.length !== 0, {
-    message: "Hotel must have at least 1 image",
-    path: ["imageFiles"],
-  })
-  .refine((data) => data.imageFiles.length <= 6, {
-    message: "Hotel cannot have more than 6 images",
-    path: ["imageFiles"],
-  });
+  .refine(
+    (data) => data.imageUrls !== undefined || data.imageFiles!.length !== 0,
+    {
+      message: "Hotel must have at least 1 image",
+      path: ["imageFiles"],
+    },
+  )
+  .refine(
+    (data) => data.imageUrls !== undefined || data.imageFiles!.length <= 6,
+    {
+      message: "Hotel cannot have more than 6 images",
+      path: ["imageFiles"],
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.imageUrls) {
+        if (data.imageFiles) {
+          return data.imageFiles!.length + data.imageUrls?.length <= 6;
+        }
+        return data.imageUrls.length <= 6;
+      }
+      return true;
+    },
+    {
+      message: "Hotel cannot have more than 6 images",
+      path: ["imageFiles"],
+    },
+  );
 
 export const createHotelSchemaSuccessResponse = z.object({
   success: z.literal(true),
@@ -158,6 +179,8 @@ export const createHotelSchemaFailedResponse = z.object({
     .optional(),
 });
 
+export const hotelParam = z.string({ message: "Hotel param is required" });
+
 export type CreateUserResponseSchema = {
   success: true;
   message: string;
@@ -188,26 +211,28 @@ export type LoginResponseSchema = {
     | undefined;
 };
 
+export type HotelData = {
+  name: string;
+  city: string;
+  country: string;
+  description: string;
+  type: string;
+  adultCount: number;
+  childCount: number;
+  pricePerNight: number;
+  starRating: number;
+  userId: string;
+  imageUrls: string[];
+  facilities: string[];
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 type HotelsSuccessResponse = {
   success: true;
   message: string;
-  data: {
-    name: string;
-    city: string;
-    country: string;
-    description: string;
-    type: string;
-    adultCount: number;
-    childCount: number;
-    pricePerNight: number;
-    starRating: number;
-    userId: string;
-    imageUrls: string[];
-    facilities: string[];
-    _id: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
+  data: HotelData[];
 };
 
 type HotelsErrorResponse = {
@@ -216,7 +241,19 @@ type HotelsErrorResponse = {
   data: [];
 };
 
+type HotelSuccessResponse = {
+  success: true;
+  message: string;
+  data: HotelData;
+};
+
+type HotelErrorResponse = {
+  success: false;
+  message: string;
+};
+
 export type HotelsResponse = HotelsSuccessResponse | HotelsErrorResponse;
+export type HotelResponse = HotelSuccessResponse | HotelErrorResponse;
 
 export type RegisterSchema = z.infer<typeof registerSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;
@@ -224,3 +261,9 @@ export type CreateHotelSchema = z.infer<typeof createHotelSchema>;
 export type CreateHotelSchemaResponse =
   | z.infer<typeof createHotelSchemaSuccessResponse>
   | z.infer<typeof createHotelSchemaFailedResponse>;
+
+export type MutationAsyncFunctionType = UseMutateAsyncFunction<
+  CreateHotelSchemaResponse,
+  Error,
+  FormData
+>;

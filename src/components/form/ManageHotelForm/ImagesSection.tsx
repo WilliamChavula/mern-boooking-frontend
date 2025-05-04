@@ -8,14 +8,50 @@ import {
   FormMessage,
 } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Trash2 } from "lucide-react";
+import React from "react";
 
 const ImagesSection = () => {
-  const { control } = useFormContext<CreateHotelSchema>();
+  const { control, setValue, watch } = useFormContext<CreateHotelSchema>();
+  const imageUrls = watch("imageUrls");
+
+  const handleImageDelete = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    imageUrl: string,
+  ) => {
+    evt.preventDefault();
+
+    setValue(
+      "imageUrls",
+      imageUrls?.filter((url) => url !== imageUrl),
+    );
+  };
 
   return (
     <div>
       <h2 className="text-2xl font-bold mb-3">Images</h2>
       <div className="rounded flex flex-col border border-gray-200">
+        {imageUrls && (
+          <div className="grid grid-cols-6 gap-4">
+            {imageUrls.map((url, index) => (
+              <div key={index} className="group relative">
+                <img
+                  src={url}
+                  alt={`hotel-image-${index}`}
+                  className="min-h-full object-cover"
+                />
+                <Button
+                  size="icon"
+                  className="cursor-pointer absolute inset-0 w-full h-full flex items-center justify-center bg-black/85 opacity-0 group-hover:opacity-80"
+                  onClick={(event) => handleImageDelete(event, url)}
+                >
+                  <Trash2 className="size-8 text-destructive" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
         <FormField
           name="imageFiles"
           control={control}

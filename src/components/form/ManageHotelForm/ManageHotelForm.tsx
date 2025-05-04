@@ -2,8 +2,12 @@ import { Form } from "@/components/ui/form.tsx";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useAddMyHotel } from "@/api/hotels.api.ts";
-import { createHotelSchema, CreateHotelSchema } from "@/types.ts";
+import {
+  createHotelSchema,
+  CreateHotelSchema,
+  HotelData,
+  MutationAsyncFunctionType,
+} from "@/types.ts";
 
 import DetailsSection from "@/components/form/ManageHotelForm/DetailsSection.tsx";
 import HotelTypesSection from "@/components/form/ManageHotelForm/HotelTypesSection.tsx";
@@ -13,18 +17,39 @@ import ImagesSection from "@/components/form/ManageHotelForm/ImagesSection.tsx";
 
 import { Button } from "@/components/ui/button.tsx";
 import { Loader } from "lucide-react";
+import { useEffect } from "react";
 
-const ManageHotelForm = () => {
+interface ManageHotelFormProps {
+  hotel?: HotelData;
+  onSave: MutationAsyncFunctionType;
+  isLoading: boolean;
+}
+
+const ManageHotelForm = ({
+  onSave,
+  isLoading,
+  hotel,
+}: ManageHotelFormProps) => {
   const form = useForm<CreateHotelSchema>({
     resolver: zodResolver(createHotelSchema),
     defaultValues: {
-      facilities: [],
+      facilities: hotel?.facilities || [],
+      starRating: hotel?.starRating,
+      adultCount: 1,
+      childCount: 0,
+      name: "",
+      city: "",
+      country: "",
+      description: "",
+      imageUrls: hotel?.imageUrls,
     },
   });
-  const { addHotelRequest, isLoading } = useAddMyHotel();
 
   const onHotelFormSubmit = async (jsonData: CreateHotelSchema) => {
     const formData = new FormData();
+
+    if (hotel) formData.append("hotelId", hotel._id);
+
     formData.append("name", jsonData.name);
     formData.append("city", jsonData.city);
     formData.append("country", jsonData.country);
@@ -35,16 +60,28 @@ const ManageHotelForm = () => {
     formData.append("pricePerNight", jsonData.pricePerNight.toString());
     formData.append("starRating", jsonData.starRating.toString());
 
-    Array.from(jsonData.imageFiles).forEach((imageFile) => {
-      formData.append("imageFiles", imageFile);
-    });
+    if (jsonData.imageFiles) {
+      Array.from(jsonData.imageFiles).forEach((imageFile) => {
+        formData.append("imageFiles", imageFile);
+      });
+    }
 
     jsonData.facilities.forEach((facility, index) => {
       formData.append(`facilities[${index}]`, facility);
     });
 
-    await addHotelRequest(formData);
+    if (jsonData.imageUrls) {
+      jsonData.imageUrls.forEach((url, index) => {
+        formData.append(`imageUrls[${index}]`, url);
+      });
+    }
+
+    await onSave(formData);
   };
+
+  useEffect(() => {
+    form.reset(hotel);
+  }, [form, hotel]);
 
   return (
     <Form {...form}>

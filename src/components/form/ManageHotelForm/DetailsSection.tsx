@@ -124,7 +124,10 @@ const DetailsSection = () => {
                 Rating
               </FormLabel>
               <FormControl>
-                <Select onValueChange={field.onChange} name="starRatingSelect">
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value?.toString()}
+                >
                   <FormControl>
                     <SelectTrigger
                       data-testid="starRating-select-trigger"

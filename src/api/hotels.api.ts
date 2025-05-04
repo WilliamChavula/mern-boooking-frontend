@@ -3,7 +3,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { configVars } from "@/config";
 import { toast } from "sonner";
-import { CreateHotelSchemaResponse, HotelsResponse } from "@/types.ts";
+import {
+  CreateHotelSchemaResponse,
+  HotelResponse,
+  HotelsResponse,
+} from "@/types.ts";
 
 const useAddMyHotel = () => {
   const addHotelAxiosRequest = async (hotel: FormData) => {
@@ -52,4 +56,57 @@ const useGetMyHotels = () => {
   return data;
 };
 
-export { useAddMyHotel, useGetMyHotels };
+const useGetMyHotel = (hotelId: string) => {
+  const getHotelAxiosRequest = async (
+    hotelId: string,
+  ): Promise<HotelResponse> => {
+    const res = await axios.get<HotelResponse>(
+      `${configVars.VITE_API_BASE_URL}/api/my/hotel/${hotelId}`,
+      { withCredentials: true },
+    );
+    if (!res.data.success || res.status !== 200) {
+      throw new Error(res.data.message);
+    }
+    return res.data;
+  };
+
+  const { data, isLoading } = useQuery<HotelResponse>({
+    queryKey: ["fetch-hotels", hotelId],
+    queryFn: () => getHotelAxiosRequest(hotelId),
+  });
+
+  return { data, isLoading };
+};
+
+const useUpdateHotel = () => {
+  const updateHotelAxiosRequest = async (hotel: FormData) => {
+    const hotelId = hotel.get("hotelId");
+
+    const res = await axios.put<CreateHotelSchemaResponse>(
+      `${configVars.VITE_API_BASE_URL}/api/my/hotel/${hotelId}`,
+      hotel,
+      { withCredentials: true },
+    );
+
+    if (res.status !== 200 || !res.data.success)
+      throw new Error(res.data.message);
+
+    return res.data;
+  };
+
+  const { mutateAsync: updateHotelRequest, isPending: isLoading } = useMutation(
+    {
+      mutationFn: updateHotelAxiosRequest,
+      onSuccess: () => {
+        toast.success("Hotel updated successfully.");
+      },
+      onError: () => {
+        toast.error("Failed to update Hotel");
+      },
+    },
+  );
+
+  return { updateHotelRequest, isLoading };
+};
+
+export { useAddMyHotel, useGetMyHotels, useGetMyHotel, useUpdateHotel };
