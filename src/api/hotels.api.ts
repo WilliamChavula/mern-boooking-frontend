@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { configVars } from "@/config";
 import { toast } from "sonner";
@@ -79,6 +79,7 @@ const useGetMyHotel = (hotelId: string) => {
 };
 
 const useUpdateHotel = () => {
+  const queryClient = useQueryClient();
   const updateHotelAxiosRequest = async (hotel: FormData) => {
     const hotelId = hotel.get("hotelId");
 
@@ -97,8 +98,11 @@ const useUpdateHotel = () => {
   const { mutateAsync: updateHotelRequest, isPending: isLoading } = useMutation(
     {
       mutationFn: updateHotelAxiosRequest,
-      onSuccess: () => {
+      onSuccess: async ({ data }) => {
         toast.success("Hotel updated successfully.");
+        await queryClient.invalidateQueries({
+          queryKey: ["fetch-hotels", data._id],
+        });
       },
       onError: () => {
         toast.error("Failed to update Hotel");
