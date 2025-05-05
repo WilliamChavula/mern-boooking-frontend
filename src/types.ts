@@ -252,6 +252,19 @@ type HotelErrorResponse = {
   message: string;
 };
 
+export type HotelsSearchResponse =
+  | {
+      success: true;
+      message: string;
+      pagination: { pages: number; currentPage: number; nextPage: number };
+      data: HotelData[];
+    }
+  | {
+      success: false;
+      message: string;
+      error?: { message: string; path: string[] }[];
+    };
+
 export type HotelsResponse = HotelsSuccessResponse | HotelsErrorResponse;
 export type HotelResponse = HotelSuccessResponse | HotelErrorResponse;
 
