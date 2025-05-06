@@ -181,6 +181,22 @@ export const createHotelSchemaFailedResponse = z.object({
 
 export const hotelParam = z.string({ message: "Hotel param is required" });
 
+export const searchParamsSchema = z.object({
+  destination: z.string().optional(),
+  checkIn: z.string().optional(),
+  checkOut: z.string().optional(),
+  adultCount: z.string().optional(),
+  childCount: z.string().optional(),
+  page: z.string().optional(),
+  facilities: z.array(z.string()).optional(),
+  types: z.array(z.string()).optional(),
+  stars: z.array(z.string()).optional(),
+  maxPrice: z.string().optional(),
+  sort: z
+    .enum(["pricePerNightAsc", "pricePerNightDesc", "starRating"])
+    .optional(),
+});
+
 export type CreateUserResponseSchema = {
   success: true;
   message: string;
@@ -256,7 +272,12 @@ export type HotelsSearchResponse =
   | {
       success: true;
       message: string;
-      pagination: { pages: number; currentPage: number; nextPage: number };
+      pagination: {
+        pages: number;
+        currentPage: number;
+        nextPage: number;
+        total: number;
+      };
       data: HotelData[];
     }
   | {
@@ -274,6 +295,8 @@ export type CreateHotelSchema = z.infer<typeof createHotelSchema>;
 export type CreateHotelSchemaResponse =
   | z.infer<typeof createHotelSchemaSuccessResponse>
   | z.infer<typeof createHotelSchemaFailedResponse>;
+
+export type SearchParamsSchema = z.infer<typeof searchParamsSchema>;
 
 export type MutationAsyncFunctionType = UseMutateAsyncFunction<
   CreateHotelSchemaResponse,

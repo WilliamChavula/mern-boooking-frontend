@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn.tsx";
 import AddHotel from "@/pages/AddHotel.tsx";
 import MyHotels from "@/pages/MyHotels.tsx";
 import EditHotel from "@/pages/EditHotel.tsx";
+import Search from "@/pages/Search.tsx";
 
 const App = () => {
   const { isLoggedIn } = useUserSession();
@@ -66,7 +67,14 @@ const App = () => {
             />
           </>
         )}
-        <Route path="/search" element={<>Search Page</>} />
+        <Route
+          path="/search"
+          element={
+            <Layout>
+              <Search />
+            </Layout>
+          }
+        />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

@@ -11,9 +11,11 @@ import { Label } from "@/components/ui/label.tsx";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "@/components/ui/button.tsx";
+import { useNavigate } from "react-router";
 
 const SearchBar = () => {
-  const { search, updateSearch } = useSearchStore();
+  const { search, setSearch, resetSearch } = useSearchStore();
+  const navigate = useNavigate();
 
   const [destination, setDestination] = useState<string>(search.destination);
   const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
@@ -27,14 +29,27 @@ const SearchBar = () => {
   const handleSearchSubmit = (evt: FormEvent) => {
     evt.preventDefault();
 
-    updateSearch({
+    setSearch({
       destination,
       checkIn,
       checkOut,
       adultCount,
       childCount,
     });
+
+    navigate("/search");
   };
+
+  const resetSearchForm = () => {
+    setDestination("");
+    setCheckIn(new Date());
+    setCheckOut(new Date());
+    setAdultCount(1);
+    setChildCount(0);
+
+    resetSearch();
+  };
+
   return (
     <form
       onSubmit={handleSearchSubmit}
@@ -102,12 +117,17 @@ const SearchBar = () => {
         />
       </div>
       <div className="flex items-center gap-2">
-        <Button className="w-2/3 cursor-pointer h-full bg-blue-600 text-white rounded-none p-2 font-semibold hover:bg-blue-500">
+        <Button
+          type="submit"
+          className="w-2/3 cursor-pointer h-full bg-blue-600 text-white rounded-none p-2 font-semibold hover:bg-blue-500"
+        >
           Search
         </Button>
         <Button
+          type="button"
           variant="destructive"
           className="w-1/3 cursor-pointer h-full text-white rounded-none p-2 font-semibold hover:bg-red-500"
+          onClick={resetSearchForm}
         >
           Clear
         </Button>
