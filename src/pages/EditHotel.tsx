@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 
-import { useGetMyHotel, useUpdateHotel } from "@/api/hotels.api.ts";
+import { useGetMyHotel, useUpdateHotel } from "@/api/my-hotels.api.ts";
 
 import ManageHotelForm from "@/components/form/ManageHotelForm/ManageHotelForm.tsx";
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-import { useGetMyHotels } from "@/api/hotels.api.ts";
+import { useGetMyHotels } from "@/api/my-hotels.api.ts";
 import {
   Card,
   CardContent,

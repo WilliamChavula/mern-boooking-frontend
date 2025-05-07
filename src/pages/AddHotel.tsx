@@ -1,6 +1,6 @@
 import ManageHotelForm from "@/components/form/ManageHotelForm/ManageHotelForm.tsx";
 
-import { useAddMyHotel } from "@/api/hotels.api.ts";
+import { useAddMyHotel } from "@/api/my-hotels.api.ts";
 
 const AddHotel = () => {
   const { addHotelRequest, isLoading } = useAddMyHotel();
