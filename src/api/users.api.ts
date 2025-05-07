@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { toast } from "sonner";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
@@ -56,6 +56,7 @@ export const useRegisterApiHandler = () => {
 export const useSignInApiHandler = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const signInUserRequest = async (
     formData: LoginSchema,
@@ -86,7 +87,7 @@ export const useSignInApiHandler = () => {
       });
 
       toast.success("Successfully logged in.");
-      navigate("/");
+      navigate(location.state?.from?.pathname || "/");
     },
     onError: (err: Error) => {
       toast.error(err.message || "Something went wrong");

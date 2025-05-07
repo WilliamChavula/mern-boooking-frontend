@@ -53,7 +53,7 @@ const SearchBar = () => {
             onChange={(e) =>
               updateSearch({ adultCount: parseInt(e.target.value) })
             }
-          ></Input>
+          />
         </Label>
         <Label htmlFor="childCount" className="text-gray-700">
           Children
@@ -67,7 +67,7 @@ const SearchBar = () => {
             onChange={(e) =>
               updateSearch({ childCount: parseInt(e.target.value) })
             }
-          ></Input>
+          />
         </Label>
       </div>
       <div>

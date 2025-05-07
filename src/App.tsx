@@ -9,6 +9,7 @@ import AddHotel from "@/pages/AddHotel.tsx";
 import MyHotels from "@/pages/MyHotels.tsx";
 import EditHotel from "@/pages/EditHotel.tsx";
 import Search from "@/pages/Search.tsx";
+import HotelDetails from "@/pages/HotelDetails.tsx";
 
 const App = () => {
   const { isLoggedIn } = useUserSession();
@@ -67,6 +68,14 @@ const App = () => {
             />
           </>
         )}
+        <Route
+          path="/detail/:hotelId"
+          element={
+            <Layout>
+              <HotelDetails />
+            </Layout>
+          }
+        />
         <Route
           path="/search"
           element={

@@ -197,6 +197,12 @@ export const searchParamsSchema = z.object({
     .optional(),
 });
 
+export const bookingInfoFormState = z.object({
+  checkIn: z.date(),
+  checkOut: z.date(),
+  adultCount: z.number().min(1),
+  childCount: z.number().min(0),
+});
 export type CreateUserResponseSchema = {
   success: true;
   message: string;
@@ -303,3 +309,5 @@ export type MutationAsyncFunctionType = UseMutateAsyncFunction<
   Error,
   FormData
 >;
+
+export type BookingInfoFormState = z.infer<typeof bookingInfoFormState>;
