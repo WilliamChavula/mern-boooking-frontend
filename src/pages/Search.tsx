@@ -1,5 +1,5 @@
 import { SearchState } from "@/context/hotel.context.ts";
-import { useSearchHotel } from "@/api/search.api.ts";
+import { useSearchHotel } from "@/api/hotel.api.ts";
 import { ChangeEvent, useState } from "react";
 import { Loader, Star, TriangleAlert } from "lucide-react";
 import {
