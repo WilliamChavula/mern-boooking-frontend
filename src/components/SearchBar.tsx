@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import type { FormEvent } from "react";
 
 import DatePicker from "react-datepicker";
@@ -17,37 +15,15 @@ const SearchBar = () => {
   const { search, setSearch, updateSearch, resetSearch } = useSearchStore();
   const navigate = useNavigate();
 
-  const [destination, setDestination] = useState<string>(search.destination);
-  const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
-  const [checkOut, setCheckOut] = useState<Date>(search.checkOut);
-  const [adultCount, setAdultCount] = useState<number>(search.adultCount);
-  const [childCount, setChildCount] = useState<number>(search.childCount);
-
   const maxDate = new Date();
   maxDate.setFullYear(new Date().getFullYear() + 1);
 
   const handleSearchSubmit = (evt: FormEvent) => {
     evt.preventDefault();
 
-    setSearch({
-      destination,
-      checkIn,
-      checkOut,
-      adultCount,
-      childCount,
-    });
+    setSearch(search);
 
     navigate("/search");
-  };
-
-  const resetSearchForm = () => {
-    setDestination("");
-    setCheckIn(new Date());
-    setCheckOut(new Date());
-    setAdultCount(1);
-    setChildCount(0);
-
-    resetSearch();
   };
 
   return (
@@ -73,8 +49,10 @@ const SearchBar = () => {
             type="number"
             min={1}
             max={20}
-            value={adultCount}
-            onChange={(e) => setAdultCount(parseInt(e.target.value))}
+            value={search.adultCount}
+            onChange={(e) =>
+              updateSearch({ adultCount: parseInt(e.target.value) })
+            }
           ></Input>
         </Label>
         <Label htmlFor="childCount" className="text-gray-700">
@@ -85,17 +63,19 @@ const SearchBar = () => {
             type="number"
             min={0}
             max={20}
-            value={childCount}
-            onChange={(e) => setChildCount(parseInt(e.target.value))}
+            value={search.childCount}
+            onChange={(e) =>
+              updateSearch({ childCount: parseInt(e.target.value) })
+            }
           ></Input>
         </Label>
       </div>
       <div>
         <DatePicker
-          selected={checkIn}
-          onChange={(date) => setCheckIn(date as Date)}
-          startDate={checkIn}
-          endDate={checkOut}
+          selected={search.checkIn}
+          onChange={(date) => updateSearch({ checkIn: date as Date })}
+          startDate={search.checkIn}
+          endDate={search.checkOut}
           placeholderText="Check in date"
           className="min-w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base"
           minDate={new Date()}
@@ -105,10 +85,10 @@ const SearchBar = () => {
       </div>
       <div>
         <DatePicker
-          selected={checkOut}
-          onChange={(date) => setCheckOut(date as Date)}
-          startDate={checkIn}
-          endDate={checkOut}
+          selected={search.checkOut}
+          onChange={(date) => updateSearch({ checkOut: date as Date })}
+          startDate={search.checkIn}
+          endDate={search.checkOut}
           placeholderText="Check in date"
           className="min-w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base"
           minDate={new Date()}
@@ -127,7 +107,7 @@ const SearchBar = () => {
           type="button"
           variant="destructive"
           className="w-1/3 cursor-pointer h-full text-white rounded-none p-2 font-semibold hover:bg-red-500"
-          onClick={resetSearchForm}
+          onClick={resetSearch}
         >
           Clear
         </Button>
