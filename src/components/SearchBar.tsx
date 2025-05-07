@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { useNavigate } from "react-router";
 
 const SearchBar = () => {
-  const { search, setSearch, resetSearch } = useSearchStore();
+  const { search, setSearch, updateSearch, resetSearch } = useSearchStore();
   const navigate = useNavigate();
 
   const [destination, setDestination] = useState<string>(search.destination);
@@ -60,8 +60,8 @@ const SearchBar = () => {
         <Input
           placeholder="where are you going?"
           className="text-sm text-gray-700 md:text-base w-full focus:outline-none shadow-none border-none focus-visible:ring-0"
-          value={destination}
-          onChange={(e) => setDestination(e.target.value)}
+          value={search.destination}
+          onChange={(e) => updateSearch({ destination: e.target.value })}
         />
       </div>
       <div className="flex bg-white px-2 py-1 gap-2">

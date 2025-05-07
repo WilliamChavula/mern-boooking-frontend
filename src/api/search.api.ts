@@ -4,6 +4,7 @@ import qs from "qs";
 import { useQuery } from "@tanstack/react-query";
 
 import { configVars } from "@/config";
+import { debouncePromise } from "@/lib/utils.ts";
 
 export const useSearchHotel = (searchParams: SearchParamsSchema) => {
   const searchHotelRequest = async (
@@ -28,7 +29,16 @@ export const useSearchHotel = (searchParams: SearchParamsSchema) => {
 
   const { data, isFetching } = useQuery<HotelsSearchResponse>({
     queryKey: ["search", searchParams],
-    queryFn: () => searchHotelRequest(searchParams),
+    queryFn: async () => {
+      const debouncedFunc = debouncePromise<
+        SearchParamsSchema,
+        SearchParamsSchema
+      >((searchParams): SearchParamsSchema => searchParams, 500);
+
+      const searchParamsRes = await debouncedFunc(searchParams);
+
+      return searchHotelRequest(searchParamsRes);
+    },
   });
 
   return { data, isFetching };
