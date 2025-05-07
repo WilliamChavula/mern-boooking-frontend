@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 
-import { useGetMyHotel, useUpdateHotel } from "@/api/my-hotels.api.ts";
+import { useGetMyHotel, useMyUpdateHotel } from "@/api/my-hotels.api.ts";
 
 import ManageHotelForm from "@/components/form/ManageHotelForm/ManageHotelForm.tsx";
 
@@ -15,7 +15,7 @@ const EditHotel = () => {
 
   const { isLoading: isGetLoading, data } = useGetMyHotel(id);
 
-  const { updateHotelRequest, isLoading: isUpdateLoading } = useUpdateHotel();
+  const { updateHotelRequest, isLoading: isUpdateLoading } = useMyUpdateHotel();
 
   if (!data || !data.success) {
     return (

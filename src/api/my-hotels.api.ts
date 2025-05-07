@@ -71,14 +71,14 @@ const useGetMyHotel = (hotelId: string) => {
   };
 
   const { data, isLoading } = useQuery<HotelResponse>({
-    queryKey: ["fetch-hotels", hotelId],
+    queryKey: ["fetch-my-hotels", hotelId],
     queryFn: () => getHotelAxiosRequest(hotelId),
   });
 
   return { data, isLoading };
 };
 
-const useUpdateHotel = () => {
+const useMyUpdateHotel = () => {
   const queryClient = useQueryClient();
   const updateHotelAxiosRequest = async (hotel: FormData) => {
     const hotelId = hotel.get("hotelId");
@@ -101,7 +101,7 @@ const useUpdateHotel = () => {
       onSuccess: async ({ data }) => {
         toast.success("Hotel updated successfully.");
         await queryClient.invalidateQueries({
-          queryKey: ["fetch-hotels", data._id],
+          queryKey: ["fetch-my-hotels", data._id],
         });
       },
       onError: () => {
@@ -113,4 +113,4 @@ const useUpdateHotel = () => {
   return { updateHotelRequest, isLoading };
 };
 
-export { useAddMyHotel, useGetMyHotels, useGetMyHotel, useUpdateHotel };
+export { useAddMyHotel, useGetMyHotels, useGetMyHotel, useMyUpdateHotel };
