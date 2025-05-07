@@ -18,7 +18,7 @@ const defaultSearch: TSearch = {
   hotelId: "",
 };
 
-interface SearchState {
+export interface SearchState {
   search: TSearch;
   setSearch: (search: TSearch) => void;
   updateSearch: (partial: Partial<TSearch>) => void;

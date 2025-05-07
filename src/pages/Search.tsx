@@ -1,4 +1,4 @@
-import { useSearchStore } from "@/context/hotel.context.ts";
+import { SearchState } from "@/context/hotel.context.ts";
 import { useSearchHotel } from "@/api/search.api.ts";
 import { ChangeEvent, useState } from "react";
 import { Loader, Star, TriangleAlert } from "lucide-react";
@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.tsx";
+import { useDebouncedStoreValue } from "@/lib/utils.ts";
 
 const Search = () => {
   const [page, setPage] = useState<number>(1);
@@ -34,14 +35,13 @@ const Search = () => {
   >();
   const [sortOption, setSortOption] = useState<string | undefined>(undefined);
 
-  const { search } = useSearchStore();
+  const debouncedParams = useDebouncedStoreValue(
+    (state: SearchState) => state.search,
+    300,
+  );
 
   const { data: searchResults, isFetching } = useSearchHotel({
-    destination: search.destination,
-    adultCount: search.adultCount.toString(),
-    childCount: search.childCount.toString(),
-    checkIn: search.checkIn.toISOString(),
-    checkOut: search.checkOut.toISOString(),
+    ...debouncedParams,
     page: page.toString(),
     stars: selectedStars,
     types: hotelType,
@@ -154,7 +154,11 @@ const Search = () => {
           <p className="text-sm md:text-lg font-semibold">
             {searchResults?.success && searchResults.pagination.total} Hotels
             found
-            <span>{search.destination ? ` in ${search.destination}` : ""}</span>
+            <span>
+              {debouncedParams.destination
+                ? ` in ${debouncedParams.destination}`
+                : ""}
+            </span>
           </p>
           <Select value={sortOption} onValueChange={setSortOption}>
             <SelectTrigger className="rounded-none">
