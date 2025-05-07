@@ -8,6 +8,7 @@ import {
   LoginResponseSchema,
   LoginSchema,
   RegisterSchema,
+  UserResponse,
   ValidTokenResponseSchema,
 } from "@/types.ts";
 import { configVars } from "@/config";
@@ -155,4 +156,28 @@ export const useUserSession = () => {
   });
 
   return { data, isLoggedIn: !isError };
+};
+
+export const useCurrentUserSession = () => {
+  const fetchCurrentUser = async (): Promise<UserResponse> => {
+    const res = await axios.get<UserResponse>(
+      `${configVars.VITE_API_BASE_URL}/api/users/me`,
+      {
+        withCredentials: true,
+      },
+    );
+
+    if (!res.data.success || res.status !== 200) {
+      throw new Error(res.data.message || res.statusText);
+    }
+
+    return res.data;
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["fetch-loggedin-user"],
+    queryFn: fetchCurrentUser,
+  });
+
+  return { data, isLoading };
 };

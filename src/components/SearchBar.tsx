@@ -17,6 +17,7 @@ const SearchBar = () => {
 
   const maxDate = new Date();
   maxDate.setFullYear(new Date().getFullYear() + 1);
+  const checkOutMinDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
   const handleSearchSubmit = (evt: FormEvent) => {
     evt.preventDefault();
@@ -91,7 +92,7 @@ const SearchBar = () => {
           endDate={search.checkOut}
           placeholderText="Check in date"
           className="min-w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base"
-          minDate={new Date()}
+          minDate={checkOutMinDate}
           maxDate={maxDate}
           wrapperClassName="min-w-full"
         />

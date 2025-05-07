@@ -203,6 +203,13 @@ export const bookingInfoFormState = z.object({
   adultCount: z.number().min(1),
   childCount: z.number().min(0),
 });
+
+export const userBookingFormState = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string().email(),
+});
+
 export type CreateUserResponseSchema = {
   success: true;
   message: string;
@@ -292,6 +299,27 @@ export type HotelsSearchResponse =
       error?: { message: string; path: string[] }[];
     };
 
+export type User = {
+  _id: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type UserResponse =
+  | {
+      success: true;
+      message: string;
+      data: User;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
 export type HotelsResponse = HotelsSuccessResponse | HotelsErrorResponse;
 export type HotelResponse = HotelSuccessResponse | HotelErrorResponse;
 
@@ -311,3 +339,4 @@ export type MutationAsyncFunctionType = UseMutateAsyncFunction<
 >;
 
 export type BookingInfoFormState = z.infer<typeof bookingInfoFormState>;
+export type UserBookingFormState = z.infer<typeof userBookingFormState>;

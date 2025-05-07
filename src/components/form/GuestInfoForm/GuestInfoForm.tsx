@@ -56,6 +56,7 @@ const GuestInfoForm = ({ hotelId, pricePerNight }: GuestInfoFormProps) => {
   const checkIn = form.watch("checkIn");
   const checkOut = form.watch("checkOut");
   const minDate = new Date();
+  const checkOutMinDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const maxDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
   return (
     <div className="flex flex-col p-4 bg-blue-400 gap-4">
@@ -111,7 +112,7 @@ const GuestInfoForm = ({ hotelId, pricePerNight }: GuestInfoFormProps) => {
                       endDate={checkOut}
                       placeholderText="Check out date"
                       className="min-w-full bg-white p-2 focus:outline-none text-sm text-slate-700 md:text-base"
-                      minDate={minDate}
+                      minDate={checkOutMinDate}
                       maxDate={maxDate}
                       wrapperClassName="min-w-full"
                       onChange={(date) => field.onChange(date as Date)}
