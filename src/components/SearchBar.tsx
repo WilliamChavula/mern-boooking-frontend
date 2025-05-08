@@ -90,7 +90,7 @@ const SearchBar = () => {
           onChange={(date) => updateSearch({ checkOut: date as Date })}
           startDate={search.checkIn}
           endDate={search.checkOut}
-          placeholderText="Check in date"
+          placeholderText="Check out date"
           className="min-w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base"
           minDate={checkOutMinDate}
           maxDate={maxDate}
