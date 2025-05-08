@@ -355,6 +355,31 @@ export type BookingResponseSchema =
       error?: { message: string; path: string[] }[];
     };
 
+type BookingTypeSchema = {
+  _id: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  adultCount: number;
+  childCount: number;
+  totalStayCost: number;
+  checkIn: string;
+  checkOut: string;
+};
+
+export type UserBookingResponseSchema =
+  | {
+      success: true;
+      message: string;
+      data: (HotelData & { bookings: BookingTypeSchema[] })[];
+    }
+  | {
+      success: false;
+      message: string;
+      error?: { message: string; path: string[] }[];
+    };
+
 export type HotelsResponse = HotelsSuccessResponse | HotelsErrorResponse;
 export type HotelResponse = HotelSuccessResponse | HotelErrorResponse;
 

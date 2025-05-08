@@ -5,6 +5,7 @@ import {
   PaymentIntentResponseSchema,
   SearchParamsSchema,
   UserBookingFormState,
+  UserBookingResponseSchema,
 } from "@/types.ts";
 import axios from "axios";
 import qs from "qs";
@@ -119,4 +120,25 @@ export const useCreateBooking = () => {
     });
 
   return { createUserBooking, isCreatingBooking };
+};
+
+export const useGetMyBookings = () => {
+  const fetchUserBookings = async () => {
+    const res = await axios.get<UserBookingResponseSchema>(
+      `${configVars.VITE_API_BASE_URL}/api/my-bookings`,
+      { withCredentials: true },
+    );
+    if (!res.data.success || res.status !== 200) {
+      throw new Error(res.data.message);
+    }
+    return res.data;
+  };
+
+  const { data: userBookings, isFetching: isLoadingBookings } =
+    useQuery<UserBookingResponseSchema>({
+      queryKey: ["fetch-user-bookings"],
+      queryFn: fetchUserBookings,
+    });
+
+  return { userBookings, isLoadingBookings };
 };
