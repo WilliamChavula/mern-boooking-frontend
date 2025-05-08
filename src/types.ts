@@ -208,6 +208,13 @@ export const userBookingFormState = z.object({
   firstName: z.string(),
   lastName: z.string(),
   email: z.string().email(),
+  paymentIntentId: z.string(),
+  adultCount: z.number(),
+  childCount: z.number(),
+  totalStayCost: z.number(),
+  checkIn: z.string(),
+  checkOut: z.string(),
+  hotelId: z.string(),
 });
 
 export type CreateUserResponseSchema = {
@@ -318,6 +325,34 @@ export type UserResponse =
   | {
       success: false;
       message: string;
+    };
+
+export type PaymentIntentResponseSchema =
+  | {
+      success: true;
+      message: string;
+      data: {
+        paymentIntentId: string;
+        clientSecret: string;
+        totalStayCost: number;
+      };
+    }
+  | {
+      success: false;
+      message: string;
+      error?: { message: string; path: string[] }[];
+    };
+
+export type BookingResponseSchema =
+  | {
+      success: true;
+      message: string;
+      data: HotelData;
+    }
+  | {
+      success: false;
+      message: string;
+      error?: { message: string; path: string[] }[];
     };
 
 export type HotelsResponse = HotelsSuccessResponse | HotelsErrorResponse;

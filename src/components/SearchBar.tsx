@@ -97,7 +97,7 @@ const SearchBar = () => {
           wrapperClassName="min-w-full"
         />
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-center gap-2">
         <Button
           type="submit"
           className="w-2/3 cursor-pointer h-full bg-blue-600 text-white rounded-none p-2 font-semibold hover:bg-blue-500"

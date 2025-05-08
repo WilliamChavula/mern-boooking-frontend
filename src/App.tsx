@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
+import { loadStripe } from "@stripe/stripe-js";
 
 import { useUserSession } from "@/api/users.api.ts";
+import { useSearchStore } from "@/context/hotel.context.ts";
+import { configVars } from "./config";
 
 import Layout from "./layouts/Layout.tsx";
 import Register from "@/pages/Register.tsx";
@@ -11,9 +14,17 @@ import EditHotel from "@/pages/EditHotel.tsx";
 import Search from "@/pages/Search.tsx";
 import HotelDetails from "@/pages/HotelDetails.tsx";
 import Booking from "@/pages/Booking.tsx";
+import { useEffect } from "react";
 
 const App = () => {
+  const { setStripe } = useSearchStore();
   const { isLoggedIn } = useUserSession();
+
+  useEffect(() => {
+    const stripe = loadStripe(configVars.VITE_STRIPE_KEY);
+    setStripe(stripe);
+  }, [setStripe]);
+
   return (
     <Router>
       <Routes>

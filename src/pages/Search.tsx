@@ -93,7 +93,7 @@ const Search = () => {
   if (isFetching) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="mr-2" /> Loading...
+        <Loader className="mr-2 animate-spin" /> Loading...
       </div>
     );
   }

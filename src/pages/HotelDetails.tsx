@@ -14,7 +14,7 @@ const HotelDetails = () => {
   if (isLoading) {
     return (
       <div className="min-h-1/2 flex items-center justify-center">
-        <Loader className="mr-2" /> Loading...
+        <Loader className="mr-2 animate-spin" /> Loading...
       </div>
     );
   }

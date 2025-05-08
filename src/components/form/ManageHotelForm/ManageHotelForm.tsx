@@ -100,7 +100,7 @@ const ManageHotelForm = ({
             type="submit"
             className="cursor-pointer bg-blue-600 hover:bg-blue-500 rounded-none text-white p-2 font-bold txxt-sm md:text-xl disabled:bg-slate-400"
           >
-            {isLoading && <Loader className="mr-2" />}
+            {isLoading && <Loader className="mr-2 animate-spin" />}
             Save
           </Button>
         </span>

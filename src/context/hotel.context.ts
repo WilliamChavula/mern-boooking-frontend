@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { Stripe } from "@stripe/stripe-js";
 
 export interface TSearch {
   destination: string;
@@ -9,24 +10,24 @@ export interface TSearch {
   childCount: number;
   hotelId?: string;
 }
-
+const minCheckOutDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
 const defaultSearch: TSearch = {
   destination: "",
   checkIn: new Date(),
-  checkOut: new Date(),
+  checkOut: minCheckOutDate,
   adultCount: 1,
   childCount: 0,
   hotelId: "",
 };
 
 export interface SearchState {
+  stripe: Promise<Stripe | null>;
   search: TSearch;
   setSearch: (search: TSearch) => void;
+  setStripe: (stripe: Promise<Stripe | null>) => void;
   updateSearch: (partial: Partial<TSearch>) => void;
   resetSearch: () => void;
 }
-
-const minCheckOutDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
 export const useSearchStore = create(
   persist<SearchState>(
@@ -39,7 +40,9 @@ export const useSearchStore = create(
         childCount: 0,
         hotelId: "",
       },
+      stripe: Promise.resolve(null),
       setSearch: (search) => set({ search }),
+      setStripe: (stripe) => set({ stripe }),
       updateSearch: (partial) =>
         set((state) => ({ search: { ...state.search, ...partial } })),
       resetSearch: () => set({ search: defaultSearch }),

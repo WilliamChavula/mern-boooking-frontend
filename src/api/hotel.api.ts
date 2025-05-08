@@ -1,13 +1,17 @@
 import {
+  BookingResponseSchema,
   HotelResponse,
   HotelsSearchResponse,
+  PaymentIntentResponseSchema,
   SearchParamsSchema,
+  UserBookingFormState,
 } from "@/types.ts";
 import axios from "axios";
 import qs from "qs";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { configVars } from "@/config";
+import { toast } from "sonner";
 
 export const useSearchHotel = (searchParams: SearchParamsSchema) => {
   const searchHotelRequest = async (
@@ -58,4 +62,61 @@ export const useGetHotel = (hotelId: string) => {
   });
 
   return { data, isLoading };
+};
+
+export const useCreatePaymentIntent = () => {
+  const createPaymentIntent = async (data: {
+    hotelId: string;
+    numberOfNights: number;
+  }): Promise<PaymentIntentResponseSchema> => {
+    const res = await axios.post<PaymentIntentResponseSchema>(
+      `${configVars.VITE_API_BASE_URL}/api/hotels/${data.hotelId}/bookings/payment-intent`,
+      {
+        numberOfNights: data.numberOfNights,
+      },
+      { withCredentials: true },
+    );
+
+    if (!res.data.success || res.status !== 200) {
+      throw new Error(res.data.message);
+    }
+    return res.data;
+  };
+
+  const { mutateAsync: createUserPayment, isPending: isCreateIntentLoading } =
+    useMutation({
+      mutationFn: createPaymentIntent,
+    });
+
+  return { createUserPayment, isCreateIntentLoading };
+};
+
+export const useCreateBooking = () => {
+  const createBooking = async (
+    data: UserBookingFormState,
+  ): Promise<BookingResponseSchema> => {
+    const res = await axios.post<BookingResponseSchema>(
+      `${configVars.VITE_API_BASE_URL}/api/hotels/${data.hotelId}/bookings`,
+      data,
+      { withCredentials: true },
+    );
+
+    if (!res.data.success || res.status !== 200) {
+      throw new Error(res.data.message);
+    }
+    return res.data;
+  };
+
+  const { mutateAsync: createUserBooking, isPending: isCreatingBooking } =
+    useMutation({
+      mutationFn: createBooking,
+      onSuccess: () => {
+        toast.success("Hotel Room Booked.");
+      },
+      onError: () => {
+        toast.error("Failed to Booking Room.");
+      },
+    });
+
+  return { createUserBooking, isCreatingBooking };
 };
