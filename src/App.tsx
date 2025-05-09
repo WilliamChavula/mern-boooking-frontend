@@ -16,6 +16,7 @@ import HotelDetails from "@/pages/HotelDetails.tsx";
 import Booking from "@/pages/Booking.tsx";
 import { useEffect } from "react";
 import MyBookings from "@/pages/MyBookings.tsx";
+import Home from "@/pages/Home.tsx";
 
 const App = () => {
   const { setStripe } = useSearchStore();
@@ -33,7 +34,7 @@ const App = () => {
           path="/"
           element={
             <Layout>
-              <p>home page</p>
+              <Home />
             </Layout>
           }
         />

@@ -43,6 +43,26 @@ export const useSearchHotel = (searchParams: SearchParamsSchema) => {
   return { data, isFetching };
 };
 
+export const useGetAllHotels = () => {
+  const getAllHotels = async (): Promise<UserBookingResponseSchema> => {
+    const res = await axios.get<UserBookingResponseSchema>(
+      `${configVars.VITE_API_BASE_URL}/api/hotels`,
+    );
+    if (!res.data.success || res.status !== 200) {
+      throw new Error(res.data.message);
+    }
+
+    return res.data;
+  };
+
+  const { data: hotels, isLoading } = useQuery<UserBookingResponseSchema>({
+    queryKey: ["fetch-hotels"],
+    queryFn: getAllHotels,
+  });
+
+  return { hotels, isLoading };
+};
+
 export const useGetHotel = (hotelId: string) => {
   const getHotelByIdRequest = async (
     hotelId: string,

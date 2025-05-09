@@ -355,7 +355,7 @@ export type BookingResponseSchema =
       error?: { message: string; path: string[] }[];
     };
 
-type BookingTypeSchema = {
+export type BookingTypeSchema = {
   _id: string;
   userId: string;
   firstName: string;
