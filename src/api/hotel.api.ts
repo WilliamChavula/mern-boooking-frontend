@@ -13,6 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { configVars } from "@/config";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 export const useSearchHotel = (searchParams: SearchParamsSchema) => {
   const searchHotelRequest = async (
@@ -113,6 +114,7 @@ export const useCreatePaymentIntent = () => {
 };
 
 export const useCreateBooking = () => {
+  const navigate = useNavigate();
   const createBooking = async (
     data: UserBookingFormState,
   ): Promise<BookingResponseSchema> => {
@@ -133,6 +135,7 @@ export const useCreateBooking = () => {
       mutationFn: createBooking,
       onSuccess: () => {
         toast.success("Hotel Room Booked.");
+        navigate("/my-bookings");
       },
       onError: () => {
         toast.error("Failed to Booking Room.");

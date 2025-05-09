@@ -111,7 +111,7 @@ const Search = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-4">
-      <div className="rounded-none border border-slate-300 p-5 h-fit sticky top-10">
+      <div className="rounded-none border border-slate-300 p-5 h-fit md:sticky top-10">
         <div className="space-y-5 flex flex-col">
           <h3 className="text-sm md:text-base font-semibold border-b border-slate-300 pb-2 flex items-center justify-between">
             Filter by:
