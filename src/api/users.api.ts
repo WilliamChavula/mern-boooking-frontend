@@ -74,7 +74,9 @@ export const useSignInApiHandler = () => {
     });
 
     if (res.status !== 200) {
-      throw new Error(res.data.message || res.statusText);
+      throw new Error(
+        res.data.message || "Something went wrong. Please try again later.",
+      );
     }
 
     return res.data;
@@ -111,7 +113,7 @@ export const useLogoutApiHandler = () => {
       },
     );
     if (res.status !== 200) {
-      throw new Error(res.statusText || "Error logging out.");
+      throw new Error("Error logging out.");
     }
   };
 
@@ -144,7 +146,7 @@ export const useUserSession = () => {
     );
 
     if (res.status !== 200) {
-      throw new Error(res.statusText);
+      throw new Error("Failed to get user session.");
     }
 
     return res.data;
@@ -175,7 +177,7 @@ export const useCurrentUserSession = () => {
   };
 
   const { data, isLoading } = useQuery({
-    queryKey: ["fetch-loggedin-user"],
+    queryKey: ["fetch-logged-in-user"],
     queryFn: fetchCurrentUser,
   });
 
