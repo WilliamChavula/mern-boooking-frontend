@@ -1,4 +1,8 @@
-import { useFetchUserPermissions, useLogoutApiHandler } from '@/api/users.api';
+import {
+    useFetchUserPermissions,
+    useLogoutApiHandler,
+    useUserSession,
+} from '@/api/users.api';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -13,9 +17,10 @@ import { User, LogOut } from 'lucide-react';
 import { Link } from 'react-router';
 
 export function SignInMobileNavMenu() {
+    const { isLoggedIn } = useUserSession();
     const logOutUserHandler = useLogoutApiHandler();
 
-    const { data, isLoading, error } = useFetchUserPermissions();
+    const { data, isLoading, error } = useFetchUserPermissions(isLoggedIn);
 
     const hasPermission = canManageHotels(data, isLoading, error);
 

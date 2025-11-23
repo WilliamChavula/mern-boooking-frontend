@@ -13,7 +13,7 @@ import { canManageHotels } from '@/lib/utils';
 const Header = () => {
     const { isLoggedIn } = useUserSession();
     const logOutUserHandler = useLogoutApiHandler();
-    const { data, isLoading, error } = useFetchUserPermissions();
+    const { data, isLoading, error } = useFetchUserPermissions(isLoggedIn);
 
     const hasPermission = canManageHotels(data, isLoading, error);
 

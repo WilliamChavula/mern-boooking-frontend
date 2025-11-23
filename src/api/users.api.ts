@@ -40,8 +40,8 @@ export const useRegisterApiHandler = () => {
 
     const { mutateAsync: createNewUserHandler } = useMutation({
         mutationFn: registerUserRequest,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({
+        onSuccess: () => {
+            queryClient.invalidateQueries({
                 queryKey: ['fetch-session'],
             });
             toast.success('User created successfully.');
@@ -86,8 +86,8 @@ export const useSignInApiHandler = () => {
 
     const { mutateAsync: logInUserHandler } = useMutation({
         mutationFn: signInUserRequest,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({
+        onSuccess: () => {
+            queryClient.invalidateQueries({
                 queryKey: ['fetch-session'],
             });
 
@@ -125,9 +125,17 @@ export const useLogoutApiHandler = () => {
             queryClient.invalidateQueries({
                 queryKey: ['fetch-session'],
             });
+            queryClient.invalidateQueries({
+                queryKey: ['fetch-logged-in-user'],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ['fetch-logged-in-user-permissions'],
+            });
 
             toast.success('Successfully logged out.');
-            navigate('/sign-in');
+            navigate('/sign-in', {
+                replace: true,
+            });
             // navigate(0);
         },
 
@@ -186,7 +194,7 @@ export const useCurrentUserSession = () => {
     return { data, isLoading };
 };
 
-export const useFetchUserPermissions = () => {
+export const useFetchUserPermissions = (isLoggedIn: boolean) => {
     const fetchCurrentUserPermissions =
         async (): Promise<PermissionResponseSchema> => {
             const res = await axios.get<PermissionResponseSchema>(
@@ -204,8 +212,9 @@ export const useFetchUserPermissions = () => {
         };
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ['fetch-logged-in-user'],
+        queryKey: ['fetch-logged-in-user-permissions'],
         queryFn: fetchCurrentUserPermissions,
+        enabled: isLoggedIn,
     });
 
     return { data, isLoading, error };
