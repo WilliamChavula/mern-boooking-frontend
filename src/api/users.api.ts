@@ -7,6 +7,7 @@ import {
     CreateUserResponseSchema,
     LoginResponseSchema,
     LoginSchema,
+    PermissionResponseSchema,
     RegisterSchema,
     UserResponse,
     ValidTokenResponseSchema,
@@ -183,4 +184,29 @@ export const useCurrentUserSession = () => {
     });
 
     return { data, isLoading };
+};
+
+export const useFetchUserPermissions = () => {
+    const fetchCurrentUserPermissions =
+        async (): Promise<PermissionResponseSchema> => {
+            const res = await axios.get<PermissionResponseSchema>(
+                `${configVars.VITE_API_BASE_URL}/api/permissions/me`,
+                {
+                    withCredentials: true,
+                }
+            );
+
+            if (!res.data.success || res.status !== 200) {
+                throw new Error(res.data.message || res.statusText);
+            }
+
+            return res.data;
+        };
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['fetch-logged-in-user'],
+        queryFn: fetchCurrentUserPermissions,
+    });
+
+    return { data, isLoading, error };
 };
