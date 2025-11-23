@@ -84,10 +84,10 @@ const SearchBar = () => {
                     startDate={search.checkIn}
                     endDate={search.checkOut}
                     placeholderText='Check in date'
-                    className='min-w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base'
+                    className='w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base'
                     minDate={new Date()}
                     maxDate={maxDate}
-                    wrapperClassName='min-w-full'
+                    wrapperClassName='w-full'
                 />
             </div>
             <div>
@@ -97,10 +97,10 @@ const SearchBar = () => {
                     startDate={search.checkIn}
                     endDate={search.checkOut}
                     placeholderText='Check out date'
-                    className='min-w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base'
+                    className='w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base'
                     minDate={checkOutMinDate}
                     maxDate={maxDate}
-                    wrapperClassName='min-w-full'
+                    wrapperClassName='w-full'
                 />
             </div>
             <div className='flex items-center justify-center gap-2'>

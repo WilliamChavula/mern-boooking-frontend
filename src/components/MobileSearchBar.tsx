@@ -42,7 +42,7 @@ export function MobileSearchBar() {
             <DrawerTrigger asChild>
                 <Button
                     variant='outline'
-                    className='flex items-center bg-white px-2 py-4 h-12 w-full shadow-none rounded-none justify-start'
+                    className='flex lg:hidden items-center bg-white px-2 py-4 h-12 w-full shadow-none rounded-none justify-start text-gray-400'
                 >
                     <Search size={25} className='mr-2 text-gray-500' />
                     {search.destination || 'where are you going?'}
@@ -130,10 +130,10 @@ export function MobileSearchBar() {
                             startDate={search.checkIn}
                             endDate={search.checkOut}
                             placeholderText='Check in date'
-                            className='min-w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base'
+                            className='w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base'
                             minDate={new Date()}
                             maxDate={maxDate}
-                            wrapperClassName='min-w-full'
+                            wrapperClassName='w-full'
                         />
                     </div>
                     <div className='grid gap-3 border-1 border-gray-300 mb-3'>
@@ -145,10 +145,10 @@ export function MobileSearchBar() {
                             startDate={search.checkIn}
                             endDate={search.checkOut}
                             placeholderText='Check out date'
-                            className='min-w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base'
+                            className='w-full bg-white p-2 focus:outline-none text-sm text-gray-700 md:text-base'
                             minDate={checkOutMinDate}
                             maxDate={maxDate}
-                            wrapperClassName='min-w-full'
+                            wrapperClassName='w-full'
                         />
                     </div>
                 </form>

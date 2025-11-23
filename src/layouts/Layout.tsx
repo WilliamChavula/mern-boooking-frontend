@@ -19,7 +19,7 @@ const Layout = ({ children }: Props) => {
             {isLoggedIn && (
                 <>
                     <Hero />
-                    <div className='px-4 lg:px-0 lg:mx-auto'>
+                    <div className='px-4 sm:px-6 lg:px-8 w-full lg:max-w-7xl lg:mx-auto'>
                         <MobileSearchBar />
                         <SearchBar />
                     </div>

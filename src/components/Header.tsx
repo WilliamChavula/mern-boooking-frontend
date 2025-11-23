@@ -21,7 +21,7 @@ const Header = () => {
 
     return (
         <div className='bg-blue-800 py-6 w-full'>
-            <div className='container px-5 md:px-0 mx-auto flex justify-between'>
+            <div className='px-4 sm:px-6 lg:px-8 w-full lg:max-w-7xl mx-auto flex justify-between'>
                 <span className='text-lg md:text-3xl text-white font-bold tracking-tight'>
                     <Link
                         to='/'
