@@ -27,10 +27,9 @@ const Home = () => {
   const topRow = hotels.data.slice(0, 2);
   const bottomRow = hotels.data.slice(2);
 
-  console.log({ topRow });
 
   return (
-    <main className="space-y-3">
+    <main className="space-y-3 mx-auto w-full lg:max-w-7xl">
       <h1 className="text-sm md:text-base lg:text-xl font-semibold">
         Latest Destinations
       </h1>

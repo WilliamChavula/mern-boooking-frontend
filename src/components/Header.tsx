@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useLogoutApiHandler, useUserSession } from "@/api/users.api.ts";
 
 import { Button } from "@/components/ui/button.tsx";
+import { SignInMobileNavMenu } from "./SignInMobileNavMenu";
 
 const Header = () => {
   const { isLoggedIn } = useUserSession();
@@ -22,7 +23,9 @@ const Header = () => {
           </Link>
         </span>
         {isLoggedIn ? (
-          <div className="flex gap-5">
+          <>
+          <SignInMobileNavMenu />
+          <div className="hidden lg:flex gap-5">
             <Button asChild variant="ghost" className="text-white">
               <Link to="/my-bookings">My Bookings</Link>
             </Button>
@@ -37,6 +40,7 @@ const Header = () => {
               Sign out
             </Button>
           </div>
+          </>
         ) : (
           <div className="flex gap-2">
             <Button
@@ -54,7 +58,7 @@ const Header = () => {
             <Button
               asChild
               variant="ghost"
-              className="flex space-x-2 bg-white/80 rounded-none hover:bg-gray-100 text-slate-900 text-sm md:text-base"
+              className="hidden lg:flex space-x-2 bg-white/80 rounded-none hover:bg-gray-100 text-slate-900 text-sm md:text-base"
             >
               <Link
                 to="/register"
