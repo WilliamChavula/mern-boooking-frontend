@@ -5,6 +5,7 @@ import Hero from '../components/Hero.tsx';
 import Footer from '../components/Footer.tsx';
 import SearchBar from '@/components/SearchBar.tsx';
 import { useUserSession } from '@/api/users.api.ts';
+import { MobileSearchBar } from '@/components/MobileSearchBar.tsx';
 
 interface Props {
     children: ReactNode;
@@ -18,7 +19,8 @@ const Layout = ({ children }: Props) => {
             {isLoggedIn && (
                 <>
                     <Hero />
-                    <div className='mx-auto'>
+                    <div className='px-4 lg:px-0 lg:mx-auto'>
+                        <MobileSearchBar />
                         <SearchBar />
                     </div>
                 </>
