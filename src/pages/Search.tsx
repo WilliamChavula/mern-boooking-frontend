@@ -1,7 +1,7 @@
 import { SearchState } from '@/context/hotel.context.ts';
 import { useSearchHotel } from '@/api/hotel.api.ts';
 import { ChangeEvent, useState } from 'react';
-import { Loader, Star, TriangleAlert } from 'lucide-react';
+import { Loader, Star, TriangleAlert, SlidersHorizontal } from 'lucide-react';
 import {
     Card,
     CardContent,
@@ -23,6 +23,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select.tsx';
+
+import {
+    Drawer,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/components/ui/drawer';
+
 import { useDebouncedStoreValue } from '@/lib/utils.ts';
 
 const Search = () => {
@@ -158,6 +169,21 @@ const Search = () => {
             </div>
             <div className='flex flex-col gap-5'>
                 <div className='flex justify-between items-center'>
+                    <FiltersMobile
+                        selectedStars={selectedStars}
+                        handleSelectedStarsChange={handleSelectedStarsChange}
+                        hotelType={hotelType}
+                        handleSelectedHotelTypeChange={
+                            handleSelectedHotelTypeChange
+                        }
+                        facilities={facilities}
+                        handleSelectedFacilityChange={
+                            handleSelectedFacilityChange
+                        }
+                        selectedMaxPrice={selectedMaxPrice}
+                        setSelectedMaxPrice={setSelectedMaxPrice}
+                        clearFilters={clearFilters}
+                    />
                     <p className='text-sm md:text-lg font-semibold'>
                         {searchResults?.success &&
                             searchResults.pagination.total}{' '}
@@ -284,3 +310,81 @@ const Search = () => {
 };
 
 export default Search;
+
+interface FiltersMobileProps {
+    selectedStars: string[];
+    handleSelectedStarsChange: (evt: ChangeEvent<HTMLInputElement>) => void;
+    hotelType: string[];
+    handleSelectedHotelTypeChange: (evt: ChangeEvent<HTMLInputElement>) => void;
+    facilities: string[];
+    handleSelectedFacilityChange: (evt: ChangeEvent<HTMLInputElement>) => void;
+    selectedMaxPrice?: number;
+    setSelectedMaxPrice: (val?: number) => void;
+    clearFilters: () => void;
+}
+
+function FiltersMobile({
+    selectedStars,
+    hotelType,
+    facilities,
+    selectedMaxPrice,
+    handleSelectedStarsChange,
+    handleSelectedHotelTypeChange,
+    handleSelectedFacilityChange,
+    setSelectedMaxPrice,
+    clearFilters,
+}: FiltersMobileProps) {
+    return (
+        <div className='lg:hidden'>
+            <Drawer>
+                <DrawerTrigger asChild>
+                    <Button
+                        variant='outline'
+                        className='rounded-none shadow-none'
+                    >
+                        <SlidersHorizontal className='mr-2' /> Filters
+                    </Button>
+                </DrawerTrigger>
+                <DrawerContent className='h-[95vh]'>
+                    <div className='mx-auto w-full h-full max-w-sm overflow-y-auto'>
+                        <DrawerHeader>
+                            <DrawerTitle>Move Goal</DrawerTitle>
+                            <DrawerDescription>
+                                Set your daily activity goal.
+                            </DrawerDescription>
+                        </DrawerHeader>
+                        <StarRatingFilter
+                            selectedStars={selectedStars}
+                            onSelectedStarsChange={handleSelectedStarsChange}
+                        />
+                        <HotelTypesFilter
+                            onSelectedTypeChange={handleSelectedHotelTypeChange}
+                            selectedType={hotelType}
+                        />
+                        <FacilitiesFilter
+                            selectedFilter={facilities}
+                            onSelectedFacilityChange={
+                                handleSelectedFacilityChange
+                            }
+                        />
+                        <PriceFilter
+                            onSelectedPriceChange={(val?: number) =>
+                                setSelectedMaxPrice(val)
+                            }
+                            selectedPrice={selectedMaxPrice}
+                        />
+                        <DrawerFooter>
+                            <Button
+                                variant='ghost'
+                                className='text-xs text-slate-500 self-end max-w-fit'
+                                onClick={clearFilters}
+                            >
+                                Clear
+                            </Button>
+                        </DrawerFooter>
+                    </div>
+                </DrawerContent>
+            </Drawer>
+        </div>
+    );
+}
