@@ -323,7 +323,7 @@ export type UserResponse =
     | {
           success: true;
           message: string;
-          data: User;
+          data: Omit<User, 'password'>;
       }
     | {
           success: false;
