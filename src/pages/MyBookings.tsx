@@ -34,9 +34,7 @@ const MyBookings = () => {
                     No Bookings Found
                 </p>
                 <Button asChild className='rounded-none bg-blue-800'>
-                <Link to='/'>
-                    Browse Hotels
-                </Link>
+                    <Link to='/'>Browse Hotels</Link>
                 </Button>
             </div>
         );
@@ -51,7 +49,11 @@ const MyBookings = () => {
                 >
                     <div className='lg:w-full lg:h-[250px]'>
                         <img
-                            src={hotelBooking.imageUrls[0]}
+                            src={
+                                Array.isArray(hotelBooking.imageUrls)
+                                    ? hotelBooking.imageUrls[0]
+                                    : hotelBooking.imageUrls
+                            }
                             alt='booked-hotel-image'
                             className='object-cover object-center w-full h-full'
                         />
