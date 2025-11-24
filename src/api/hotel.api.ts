@@ -1,6 +1,7 @@
 import {
     BookingResponseSchema,
     HotelResponse,
+    HotelsResponse,
     HotelsSearchResponse,
     PaymentIntentResponseSchema,
     SearchParamsSchema,
@@ -46,8 +47,8 @@ export const useSearchHotel = (searchParams: SearchParamsSchema) => {
 };
 
 export const useGetAllHotels = () => {
-    const getAllHotels = async (): Promise<UserBookingResponseSchema> => {
-        const res = await axios.get<UserBookingResponseSchema>(
+    const getAllHotels = async (): Promise<HotelsResponse> => {
+        const res = await axios.get<HotelsResponse>(
             `${configVars.VITE_API_BASE_URL}/api/hotels`,
             { withCredentials: true }
         );
@@ -58,7 +59,7 @@ export const useGetAllHotels = () => {
         return res.data;
     };
 
-    const { data: hotels, isLoading } = useQuery<UserBookingResponseSchema>({
+    const { data: hotels, isLoading } = useQuery<HotelsResponse>({
         queryKey: ['fetch-hotels'],
         queryFn: getAllHotels,
     });
