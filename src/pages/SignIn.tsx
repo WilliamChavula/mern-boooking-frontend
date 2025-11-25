@@ -15,6 +15,9 @@ import { Button } from '@/components/ui/button.tsx';
 import { loginSchema, type LoginSchema } from '@/types.ts';
 import { useSignInApiHandler } from '@/api/users.api.ts';
 import { Link } from 'react-router';
+import axios from 'axios';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircleIcon } from 'lucide-react';
 
 const SignIn = () => {
     const logInUserHandler = useSignInApiHandler();
@@ -28,11 +31,21 @@ const SignIn = () => {
 
     const onSignInSubmit = async (data: LoginSchema) => {
         try {
+            form.clearErrors('root');
             await logInUserHandler(data);
-        } catch (error) {
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    form.setError('root', {
+                        type: 'manual',
+                        message: error.response.data.message,
+                    });
+                    return;
+                }
+            }
             form.setError('root', {
                 type: 'manual',
-                message: `Failed to sign in. ${error?.response.data.message || ''}`,
+                message: 'Something went wrong. Please try again.',
             });
         }
     };
@@ -46,9 +59,13 @@ const SignIn = () => {
                     Login into your account
                 </h2>
                 {form.formState.errors.root && (
-                    <FormMessage className='text-red-600'>
-                        {form.formState.errors.root.message}
-                    </FormMessage>
+                    <Alert variant='destructive'>
+                        <AlertCircleIcon />
+                        <AlertTitle>Unable to log you in.</AlertTitle>
+                        <AlertDescription>
+                            {form.formState.errors.root.message}
+                        </AlertDescription>
+                    </Alert>
                 )}
                 <FormField
                     name='email'

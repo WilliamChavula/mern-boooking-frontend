@@ -16,6 +16,9 @@ import { registerSchema, type RegisterSchema } from '@/types.ts';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Link } from 'react-router';
+import axios from 'axios';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircleIcon } from 'lucide-react';
 
 const Register = () => {
     const form = useForm<RegisterSchema>({
@@ -31,7 +34,24 @@ const Register = () => {
     const createNewUserHandler = useRegisterApiHandler();
 
     const onSubmit = async (data: RegisterSchema) => {
-        await createNewUserHandler(data);
+        try {
+            form.clearErrors('root');
+            await createNewUserHandler(data);
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    form.setError('root', {
+                        type: 'manual',
+                        message: error.response.data.message,
+                    });
+                    return;
+                }
+            }
+            form.setError('root', {
+                type: 'manual',
+                message: 'Something went wrong. Please try again.',
+            });
+        }
     };
     return (
         <Form {...form}>
@@ -42,6 +62,15 @@ const Register = () => {
                 <h2 className='text-xl md:text-3xl font-bold'>
                     Create an account
                 </h2>
+                {form.formState.errors.root && (
+                    <Alert variant='destructive'>
+                        <AlertCircleIcon />
+                        <AlertTitle>Unable to create your account.</AlertTitle>
+                        <AlertDescription>
+                            {form.formState.errors.root.message}
+                        </AlertDescription>
+                    </Alert>
+                )}
                 <div className='flex gap-5 flex-col md:flex-row justify-between items-center'>
                     <FormField
                         control={form.control}

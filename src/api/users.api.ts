@@ -111,7 +111,15 @@ export const useRegisterApiHandler = () => {
             navigate('/');
         },
         onError: (err: Error) => {
-            toast.error(err.message || 'Something went wrong');
+            if (axios.isAxiosError(err)) {
+                if (err.response) {
+                    toast.error(
+                        err.response.data.message || 'Something went wrong'
+                    );
+                    return;
+                }
+            }
+            toast.error('Something went wrong');
         },
     });
 
@@ -133,7 +141,15 @@ export const useSignInApiHandler = () => {
             navigate(location.state?.from?.pathname || '/');
         },
         onError: (err: Error) => {
-            toast.error(err.message || 'Something went wrong');
+            if (axios.isAxiosError(err)) {
+                if (err.response) {
+                    toast.error(
+                        err.response.data.message || 'Something went wrong'
+                    );
+                    return;
+                }
+            }
+            toast.error('Something went wrong');
         },
     });
 
