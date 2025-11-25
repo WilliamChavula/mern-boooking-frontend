@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@/test/test-utils';
-import MyBookings from './MyBookings';
+import MyBookings from '@/pages/MyBookings';
 import * as hotelApi from '@/api/hotel.api';
 import { UserBookingResponseSchema } from '@/types';
 

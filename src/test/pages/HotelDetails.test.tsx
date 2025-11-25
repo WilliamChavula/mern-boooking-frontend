@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@/test/test-utils';
-import HotelDetails from './HotelDetails';
+import HotelDetails from '@/pages/HotelDetails';
 import * as hotelApi from '@/api/hotel.api';
 import { useParams } from 'react-router';
 import { HotelResponse } from '@/types';

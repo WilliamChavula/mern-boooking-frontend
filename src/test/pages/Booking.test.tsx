@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@/test/test-utils';
-import Booking from './Booking';
+import Booking from '@/pages/Booking';
 import * as hotelApi from '@/api/hotel.api';
 import * as usersApi from '@/api/users.api';
 import * as hotelContext from '@/context/hotel.context';
