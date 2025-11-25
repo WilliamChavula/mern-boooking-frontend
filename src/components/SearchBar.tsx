@@ -48,7 +48,7 @@ const SearchBar = () => {
                     Adults:
                     <Input
                         id='adultCount'
-                        className='text-sm text-gray-700 md:text-base w-full focus:outline-none shadow-none border-none focus-visible:ring-0'
+                        className='text-sm text-gray-700 px-1 md:text-base w-full focus:outline-none shadow-none border-none focus-visible:ring-0'
                         type='number'
                         min={1}
                         max={20}
@@ -61,10 +61,10 @@ const SearchBar = () => {
                     />
                 </Label>
                 <Label htmlFor='childCount' className='text-gray-700'>
-                    Children
+                    Children:
                     <Input
                         id='childCount'
-                        className='text-sm text-gray-700 md:text-base w-full focus:outline-none shadow-none border-none focus-visible:ring-0'
+                        className='text-sm px-1 text-gray-700 md:text-base w-full focus:outline-none shadow-none border-none focus-visible:ring-0'
                         type='number'
                         min={0}
                         max={20}
