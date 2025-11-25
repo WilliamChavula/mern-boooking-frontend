@@ -40,22 +40,19 @@ export function SignInMobileNavMenu() {
                     My Bookings
                 </DropdownMenuLabel>
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                         <Link to='/my-bookings'>My Bookings</Link>
                     </DropdownMenuItem>
                     {hasPermission && (
-                        <DropdownMenuItem>
+                        <DropdownMenuItem asChild>
                             <Link to='/my-hotels'>My Hotels</Link>
                         </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem>
-                        <Button
-                            variant='ghost'
-                            onClick={() => logOutUserHandler()}
-                            className='flex has-[>svg]:px-0 gap-2 px-0 bg-white/80 rounded-none hover:bg-gray-100 text-slate-900 text-sm md:text-base cursor-pointer'
-                        >
-                            Sign out <LogOut className='size-4' />
-                        </Button>
+                    <DropdownMenuItem
+                        onClick={() => logOutUserHandler()}
+                        className='flex items-center gap-2 cursor-pointer'
+                    >
+                        Sign out <LogOut className='size-4' />
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
             </DropdownMenuContent>

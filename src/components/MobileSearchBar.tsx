@@ -39,14 +39,9 @@ export function MobileSearchBar() {
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                <Button
-                    variant='outline'
-                    className='flex lg:hidden items-center bg-white px-2 py-4 h-12 w-full shadow-none rounded-none justify-start text-gray-400'
-                >
-                    <Search size={25} className='mr-2 text-gray-500' />
-                    {search.destination || 'where are you going?'}
-                </Button>
+            <DrawerTrigger className='flex lg:hidden items-center bg-white px-2 py-4 h-12 w-full shadow-none rounded-none justify-start text-gray-400 border border-input hover:bg-accent hover:text-accent-foreground'>
+                <Search size={25} className='mr-2 text-gray-500' />
+                {search.destination || 'where are you going?'}
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader className='text-left'>

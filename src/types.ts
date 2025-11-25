@@ -239,15 +239,21 @@ export type ValidTokenResponseSchema = {
     } | null;
 };
 
-export type LoginResponseSchema = {
-    success: boolean;
-    message: string;
-    data:
-        | {
-              token: string;
-          }
-        | undefined;
-};
+export type LoginResponseSchema =
+    | {
+          success: true;
+          message: string;
+          data:
+              | {
+                    token: string;
+                }
+              | undefined;
+      }
+    | {
+          success: false;
+          message: string;
+          error?: { message: string; path: string[] }[];
+      };
 
 export type HotelData = {
     name: string;

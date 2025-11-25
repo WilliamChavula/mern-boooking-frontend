@@ -27,7 +27,14 @@ const SignIn = () => {
     });
 
     const onSignInSubmit = async (data: LoginSchema) => {
-        await logInUserHandler(data);
+        try {
+            await logInUserHandler(data);
+        } catch (error) {
+            form.setError('root', {
+                type: 'manual',
+                message: `Failed to sign in. ${error?.response.data.message || ''}`,
+            });
+        }
     };
     return (
         <Form {...form}>
@@ -38,6 +45,11 @@ const SignIn = () => {
                 <h2 className='text-xl md:text-3xl font-bold'>
                     Login into your account
                 </h2>
+                {form.formState.errors.root && (
+                    <FormMessage className='text-red-600'>
+                        {form.formState.errors.root.message}
+                    </FormMessage>
+                )}
                 <FormField
                     name='email'
                     control={form.control}
