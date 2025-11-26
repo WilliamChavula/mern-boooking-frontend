@@ -1,6 +1,6 @@
 import { SearchState } from '@/context/hotel.context.ts';
 import { useSearchHotel } from '@/api/hotel.api.ts';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Loader, Star, TriangleAlert, SlidersHorizontal } from 'lucide-react';
 import {
     Card,
@@ -64,6 +64,17 @@ const Search = () => {
             | 'starRating',
     });
 
+    // Reset page when search params change
+    useEffect(() => {
+        setPage(1);
+    }, [
+        debouncedParams.destination,
+        debouncedParams.checkIn,
+        debouncedParams.checkOut,
+        debouncedParams.adultCount,
+        debouncedParams.childCount,
+    ]);
+
     const handleSelectedStarsChange = (evt: ChangeEvent<HTMLInputElement>) => {
         const { value: selectedRating } = evt.target;
 
@@ -72,6 +83,7 @@ const Search = () => {
                 ? [...prevState, selectedRating]
                 : prevState.filter(star => star !== selectedRating);
         });
+        setPage(1); // Reset to first page when filter changes
     };
 
     const handleSelectedHotelTypeChange = (
@@ -84,6 +96,7 @@ const Search = () => {
                 ? [...prevState, selectedHotelType]
                 : prevState.filter(type => type !== selectedHotelType);
         });
+        setPage(1); // Reset to first page when filter changes
     };
 
     const handleSelectedFacilityChange = (
@@ -96,6 +109,7 @@ const Search = () => {
                 ? [...prevState, selectedFacility]
                 : prevState.filter(f => f !== selectedFacility);
         });
+        setPage(1); // Reset to first page when filter changes
     };
 
     const clearFilters = () => {
@@ -152,9 +166,11 @@ const Search = () => {
                         onSelectedFacilityChange={handleSelectedFacilityChange}
                     />
                     <PriceFilter
-                        onSelectedPriceChange={(val?: number) =>
-                            setSelectedMaxPrice(val)
-                        }
+                        onSelectedPriceChange={(val?: number) => {
+                            setSelectedMaxPrice(val);
+
+                            setPage(1); // Reset to first page when filter changes
+                        }}
                         selectedPrice={selectedMaxPrice}
                     />
 
@@ -194,7 +210,13 @@ const Search = () => {
                                 : ''}
                         </span>
                     </p>
-                    <Select value={sortOption} onValueChange={setSortOption}>
+                    <Select
+                        value={sortOption}
+                        onValueChange={value => {
+                            setSortOption(value);
+                            setPage(1); // Reset to first page when sort option changes
+                        }}
+                    >
                         <SelectTrigger className='rounded-none'>
                             <SelectValue placeholder='Sort By' />
                         </SelectTrigger>
@@ -348,9 +370,9 @@ function FiltersMobile({
                 <DrawerContent className='h-[95vh]'>
                     <div className='mx-auto w-full h-full max-w-sm overflow-y-auto'>
                         <DrawerHeader>
-                            <DrawerTitle>Move Goal</DrawerTitle>
+                            <DrawerTitle>Filter Hotels</DrawerTitle>
                             <DrawerDescription>
-                                Set your daily activity goal.
+                                Refine your hotel search results.
                             </DrawerDescription>
                         </DrawerHeader>
                         <StarRatingFilter
